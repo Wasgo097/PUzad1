@@ -1,4 +1,6 @@
 using CQRS;
+using CQRS.Authors;
+using CQRS.Books;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,11 +26,23 @@ namespace ProgramowanieUzytkoweIP12
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<Database>();
+
             services.AddScoped<LibraryRepository>();
+
             services.AddScoped<CommandBus>();
-            services.AddScoped<ICommandHandler<AddBookCommand>,AddBookCommandHandler>();
-            services.AddScoped<ICommandHandler<DeleteBookCommand>,DeleteBookCommandHandler>();
-            services.AddScoped<IQueryHandler<GetBooksQuery,List<BookDTO>>,GetBooksQueryHandler>();
+            services.AddScoped<QueryBus>();
+
+            services.AddScoped<IQueryHandler<GetBooksQuery, List<BookDTO>>, GetBooksQueryHandler>();
+            services.AddScoped<IQueryHandler<GetBookQuery, BookDTO>, GetBookQueryHandler>();
+            services.AddScoped<ICommandHandler<AddBookCommand>, AddBookCommandHandler>();
+            services.AddScoped<ICommandHandler<DeleteBookCommand>, DeleteBookCommandHandler>();
+            services.AddScoped<ICommandHandler<AddBookRateCommand>, AddBookRateCommandHandler>();
+
+            services.AddScoped<IQueryHandler<GetAuthorsQueryCommand, List<AuthorDTO>>, GetAuthorsQueryCommandHandler>();
+            services.AddScoped<ICommandHandler<AddAuthorCommand>, AddAuthorCommandHandler>();
+            services.AddScoped<ICommandHandler<DeleteAuthorCommand>, DeleteAuthorCommandHandler>();
+            services.AddScoped<ICommandHandler<AddAuthorRateCommand>, AddAuthorRateCommandHandler>();
+
             services.AddSwaggerGen();
             services.AddControllers();
         }

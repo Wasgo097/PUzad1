@@ -1,4 +1,6 @@
 ﻿using CQRS;
+using CQRS.Authors;
+using CQRS.Books;
 using Microsoft.AspNetCore.Mvc;
 using Model.DTO;
 using System;
@@ -19,21 +21,58 @@ namespace ProgramowanieUzytkoweIP12.Controllers
             this.commandBus= commandBus;
             this.querybus = querybus;
         }
-        [HttpPost]
-        public void Post([FromBody] AddBookCommand command)
+        [HttpGet("/cqrsbooks")]
+        public IEnumerable<BookDTO> GetBooks([FromQuery] GetBooksQuery query)
+        {
+            return querybus.Handle<GetBooksQuery, List<BookDTO>>(query);
+        }
+        [HttpGet("/cqrsbook")]
+        public List<BookDTO> GetBook([FromQuery] GetBookQuery query)
+        {
+            return querybus.Handle<GetBookQuery, List<BookDTO>>(query);
+        }
+        [HttpPost("/cqrsaddbook")]
+        public void PostBook([FromBody] AddBookCommand command)
         {
             commandBus.Handle(command);
         }
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{id}/cqrsdeletebook")]
+        public void DeleteBook(int id)
         {
 
             commandBus.Handle(new DeleteBookCommand(id));
         }
-        [HttpGet]
-        public List<BookDTO> GetBooks([FromQuery]GetBooksQuery query)
+        [HttpPost("/cqrsratebook")]
+        public void PostBookRate([FromBody] int id, int rate)
         {
-            return querybus.Handle<GetBooksQuery, List<BookDTO>>(query);
+            commandBus.Handle(new AddBookRateCommand(id, rate));
         }
+
+        ///authors
+
+        [HttpGet("/cqrsauthors")]
+        public List<AuthorDTO> GetAuthors([FromQuery] GetAuthorsQueryCommand query)
+        {
+            return querybus.Handle<GetAuthorsQueryCommand, List<AuthorDTO>>(query);
+        }
+
+        [HttpPost("/cqrsaddauthor")]
+        public void PostAuthor([FromBody] AddAuthorCommand command)
+        {
+            commandBus.Handle(command);
+        }
+
+        [HttpDelete("{id}/cqrsdeleteauthor")]
+        public void DeleteAuthor(int id)
+        {
+            commandBus.Handle(new DeleteAuthorCommand(id));
+        }
+
+        [HttpPost("/cqrsrateauthor")]
+        public void PostAuthorRate([FromBody] int id, int rate)
+        {
+            commandBus.Handle(new AddAuthorRateCommand(id, rate));
+        }
+
     }
 }

@@ -21,27 +21,27 @@ namespace ProgramowanieUzytkoweIP12.Controllers
             repo = rep;
         }
 
-        [HttpGet("/books")]
+        [HttpGet("/repbooks")]
         public IEnumerable<BookDTO> GetBooks([FromQuery] PaginationDTO pagination)
         {
             return repo.GetBooks(pagination);
         }
-        [HttpGet("/book")]
+        [HttpGet("/repbook")]
         public BookDTO GetBook(int id)
         {
             return repo.GetBook(id);
         }
-        [HttpPost("/addbook")]
+        [HttpPost("/repaddbook")]
         public void PostBook([FromBody]BookRequestDTO book)
         {
             repo.PostBook(book);
         }
-        [HttpDelete("{id}/deletebook")]
+        [HttpDelete("{id}/repdeletebook")]
         public void DeleteBook(int id)
         {
             repo.DeleteBook(id);
         }
-        [HttpPost("/ratebook")]
+        [HttpPost("/repratebook")]
         public void RateBook([FromBody]int rate,int id)
         {
             repo.AddRateToBook(rate, id);
@@ -50,22 +50,22 @@ namespace ProgramowanieUzytkoweIP12.Controllers
         ////authors
 
 
-        [HttpGet("/authors")]
+        [HttpGet("/repauthors")]
         public IEnumerable<AuthorDTO> GetAuthors([FromQuery] PaginationDTO pagination)
         {
             return repo.GetAuthors(pagination);
         }
-        [HttpPost("/addauthor")]
+        [HttpPost("/repaddauthor")]
         public void PostAuthor(AuthorRequestDTO author)
         {
             repo.PostAuthor(author);
         }
-        [HttpDelete("{id}/deleteauthor")]
+        [HttpDelete("{id}/repdeleteauthor")]
         public void DeleteAuthor(int id)
         {
            repo.DeleteAuthor(id);
         }
-        [HttpPost("/rateauthor")]
+        [HttpPost("/reprateauthor")]
         public void RateAuthor([FromBody] int rate, int id)
         {
             repo.AddRateToAuthor(rate, id);
