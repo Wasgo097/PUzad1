@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace ProgramowanieUzytkoweIP12.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class CQRSController : ControllerBase
     {
         private readonly CommandBus commandBus;
@@ -51,9 +51,9 @@ namespace ProgramowanieUzytkoweIP12.Controllers
         ///authors
 
         [HttpGet("/cqrsauthors")]
-        public List<AuthorDTO> GetAuthors([FromQuery] GetAuthorsQueryCommand query)
+        public List<AuthorDTO> GetAuthors([FromQuery] GetAuthorsQuery query)
         {
-            return querybus.Handle<GetAuthorsQueryCommand, List<AuthorDTO>>(query);
+            return querybus.Handle<GetAuthorsQuery, List<AuthorDTO>>(query);
         }
 
         [HttpPost("/cqrsaddauthor")]

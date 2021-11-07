@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace CQRS.Authors
 {
-    public record GetAuthorsQueryCommand(int Page, int Count) : IQuery;
+    public record GetAuthorsQuery(int Page, int Count) : IQuery;
 }

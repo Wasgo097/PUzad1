@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CQRS.Authors
 {
-    public class AddAuthorRateCommandHandler
+    public class AddAuthorRateCommandHandler:ICommandHandler<AddAuthorRateCommand>
     {
         private Database db { get; }
 

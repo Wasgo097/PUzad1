@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Model;
 using Model.DTO;
 using RepositoryPattern;
+using System;
 using System.Collections.Generic;
 
 namespace ProgramowanieUzytkoweIP12
@@ -38,7 +39,7 @@ namespace ProgramowanieUzytkoweIP12
             services.AddScoped<ICommandHandler<DeleteBookCommand>, DeleteBookCommandHandler>();
             services.AddScoped<ICommandHandler<AddBookRateCommand>, AddBookRateCommandHandler>();
 
-            services.AddScoped<IQueryHandler<GetAuthorsQueryCommand, List<AuthorDTO>>, GetAuthorsQueryCommandHandler>();
+            services.AddScoped<IQueryHandler<GetAuthorsQuery, List<AuthorDTO>>, GetAuthorsQueryHandler>();
             services.AddScoped<ICommandHandler<AddAuthorCommand>, AddAuthorCommandHandler>();
             services.AddScoped<ICommandHandler<DeleteAuthorCommand>, DeleteAuthorCommandHandler>();
             services.AddScoped<ICommandHandler<AddAuthorRateCommand>, AddAuthorRateCommandHandler>();

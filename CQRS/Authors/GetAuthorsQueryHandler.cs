@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace CQRS.Authors
 {
-    public class GetAuthorsQueryCommandHandler: IQueryHandler<GetAuthorsQueryCommand, List<AuthorDTO>>
+    public class GetAuthorsQueryHandler: IQueryHandler<GetAuthorsQuery, List<AuthorDTO>>
     {
         private readonly Database db;
 
-        public GetAuthorsQueryCommandHandler(Database db)
+        public GetAuthorsQueryHandler(Database db)
         {
             this.db = db;
         }
-        public List<AuthorDTO> Handle(GetAuthorsQueryCommand query)
+        public List<AuthorDTO> Handle(GetAuthorsQuery query)
         {
             return db.Authors.Include(a => a.Rates)
             .Include(a => a.Books)
