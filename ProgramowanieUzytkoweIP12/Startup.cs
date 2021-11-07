@@ -24,7 +24,7 @@ namespace ProgramowanieUzytkoweIP12
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<Database>();
-            services.AddScoped<BooksRepository>();
+            services.AddScoped<LibraryRepository>();
             services.AddScoped<CommandBus>();
             services.AddScoped<ICommandHandler<AddBookCommand>,AddBookCommandHandler>();
             services.AddScoped<ICommandHandler<DeleteBookCommand>,DeleteBookCommandHandler>();
