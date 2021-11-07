@@ -14,7 +14,7 @@ namespace Model
         public DbSet<AuthorRate> AuthorsRates { get; set; }
         public DbSet<BookRate> BooksRates { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite($"Data Source=D:\\studia\\ProgramowanieUzytkoweIP12-master\\Model\\database.db");
+            => options.UseSqlite($"Data Source=D:\\studia\\ProgramowanieUzytkoweIP12\\Model\\database.db");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

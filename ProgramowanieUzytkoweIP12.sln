@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepositoryPattern", "Reposi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRS", "CQRS\CQRS.csproj", "{02BDB9BD-856C-45D0-9169-C2D016250BDD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatRCQRS", "MediatRCQRS\MediatRCQRS.csproj", "{7A2AE4D9-3277-42DA-BDB3-41779B3287C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{02BDB9BD-856C-45D0-9169-C2D016250BDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02BDB9BD-856C-45D0-9169-C2D016250BDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02BDB9BD-856C-45D0-9169-C2D016250BDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A2AE4D9-3277-42DA-BDB3-41779B3287C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A2AE4D9-3277-42DA-BDB3-41779B3287C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A2AE4D9-3277-42DA-BDB3-41779B3287C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A2AE4D9-3277-42DA-BDB3-41779B3287C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

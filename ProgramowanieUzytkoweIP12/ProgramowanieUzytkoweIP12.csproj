@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CQRS\CQRS.csproj" />
+    <ProjectReference Include="..\MediatRCQRS\MediatRCQRS.csproj" />
     <ProjectReference Include="..\Model\Model.csproj" />
     <ProjectReference Include="..\RepositoryPattern\RepositoryPattern.csproj" />
   </ItemGroup>

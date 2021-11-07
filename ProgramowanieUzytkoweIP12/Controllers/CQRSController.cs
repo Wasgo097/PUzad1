@@ -39,7 +39,6 @@ namespace ProgramowanieUzytkoweIP12.Controllers
         [HttpDelete("{id}/cqrsdeletebook")]
         public void DeleteBook(int id)
         {
-
             commandBus.Handle(new DeleteBookCommand(id));
         }
         [HttpPost("/cqrsratebook")]
