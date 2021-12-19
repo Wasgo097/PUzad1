@@ -9,5 +9,6 @@ namespace Model
         public string SecondName { get; set; }
         public List<Book> Books { get; set; }
         public List<AuthorRate> Rates { get; set; }
+        public string CV { get; set; }
     }
 }

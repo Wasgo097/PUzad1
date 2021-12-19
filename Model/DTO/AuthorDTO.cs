@@ -14,5 +14,6 @@ namespace Model.DTO
         public double AvarageRate { get; set; }
         public int RatesCount { get; set; }
         public List<SlimBookDTO> Books { get; set; }
+        public string CV { get; set; }
     }
 }

@@ -10,5 +10,6 @@ namespace Model
         public DateTime ReleaseDate { get; set; }
         public List<Author> Authors { get; set; }
         public List<BookRate> Rates { get; set; }
+        public string Description { get; set; }
     }
 }
