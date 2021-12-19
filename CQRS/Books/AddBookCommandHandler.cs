@@ -1,4 +1,5 @@
 ﻿using Model;
+using Model.DTO;
 using Nest;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,8 @@ namespace CQRS
             newbook.Authors = db.Authors.Where(a => command.AuthorsIds.Contains(a.Id)).ToList();
             db.Books.Add(newbook);
             db.SaveChanges();
+            BookDTO booktoindex = new BookDTO { Id = newbook.Id, Title = newbook.Title, ReleaseDate = newbook.ReleaseDate };
+            _elasticClient.IndexDocument<BookDTO>(booktoindex);
         }
     }
 }

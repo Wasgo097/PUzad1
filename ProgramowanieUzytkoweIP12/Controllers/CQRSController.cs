@@ -3,6 +3,7 @@ using CQRS.Authors;
 using CQRS.Books;
 using Microsoft.AspNetCore.Mvc;
 using Model.DTO;
+using Nest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +17,30 @@ namespace ProgramowanieUzytkoweIP12.Controllers
     {
         private readonly CommandBus commandBus;
         private readonly QueryBus querybus;
-        public CQRSController(CommandBus commandBus,QueryBus querybus)
+        private readonly IElasticClient _elasticClient;
+        public CQRSController(CommandBus commandBus, QueryBus querybus, IElasticClient client)
         {
-            this.commandBus= commandBus;
+            this.commandBus = commandBus;
             this.querybus = querybus;
+            _elasticClient = client;
         }
         [HttpGet("/cqrsbooks")]
         public IEnumerable<BookDTO> GetBooks([FromQuery] GetBooksQuery query)
         {
             return querybus.Handle<GetBooksQuery, List<BookDTO>>(query);
+           // var x = _elasticClient.Search<BookDTO>(x => x.Size(10).Skip(0)
+           //.Query(q => q
+           //    .QueryString
+           //    (qs =>qs.Fields
+           //        (x => x
+           //            .Field(f => f.Title)
+           //            .Field(f => f.Description)
+           //            )
+           //        )
+           //    )
+           //).Documents;
+
+           // return x;
         }
         [HttpGet("/cqrsbook")]
         public List<BookDTO> GetBook([FromQuery] GetBookQuery query)
