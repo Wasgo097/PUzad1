@@ -21,23 +21,24 @@ namespace CQRS
         }
         public BookDTO Handle(GetBookQuery query)
         {
-            return db.Books.
-                   Include(b => b.Rates).
-                   Include(b => b.Authors).
-                   ToList().Select(b => new BookDTO
-                   {
-                       Id = b.Id,
-                       ReleaseDate = b.ReleaseDate,
-                       AvarageRate = b.Rates.Count > 0 ? b.Rates.Average(r => r.Value) : 0,
-                       RatesCount = b.Rates.Count(),
-                       Title = b.Title,
-                       Authors = b.Authors.Select(a => new BookAuthorDTO
-                       {
-                           FirstName = a.FirstName,
-                           Id = a.Id,
-                           SecondName = a.SecondName
-                       }).ToList()
-                   }).Where(b => b.Id == query.id).Single();
+            return _elasticClient.Get<BookDTO>(query.id).Source;
+            //return db.Books.
+            //       Include(b => b.Rates).
+            //       Include(b => b.Authors).
+            //       ToList().Select(b => new BookDTO
+            //       {
+            //           Id = b.Id,
+            //           ReleaseDate = b.ReleaseDate,
+            //           AvarageRate = b.Rates.Count > 0 ? b.Rates.Average(r => r.Value) : 0,
+            //           RatesCount = b.Rates.Count(),
+            //           Title = b.Title,
+            //           Authors = b.Authors.Select(a => new BookAuthorDTO
+            //           {
+            //               FirstName = a.FirstName,
+            //               Id = a.Id,
+            //               SecondName = a.SecondName
+            //           }).ToList()
+            //       }).Where(b => b.Id == query.id).Single();
         }
     }
 }
