@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Model;
+using Model.DTO;
 using Nest;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace CQRS.Authors
                     db.Authors.Remove(authortoremove);
                     db.SaveChanges();
                 }
+                _elasticClient.Delete<AuthorDTO>(command.id);
             }
 
         }

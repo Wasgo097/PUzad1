@@ -1,4 +1,6 @@
-﻿using Model;
+﻿using Microsoft.EntityFrameworkCore;
+using Model;
+using Model.DTO;
 using Nest;
 using System;
 using System.Collections.Generic;
@@ -32,6 +34,26 @@ namespace CQRS.Books
                     Book = book
                 });
                 db.SaveChanges();
+                var booktoindex=db.Books.
+                   Include(b => b.Rates).
+                   Include(b => b.Authors).
+                   ToList().Select
+                   (b => new BookDTO
+                   {
+                       Id = b.Id,
+                       ReleaseDate = b.ReleaseDate,
+                       AvarageRate = b.Rates.Count > 0 ? b.Rates.Average(r => r.Value) : 0,
+                       RatesCount = b.Rates.Count(),
+                       Title = b.Title,
+                       Authors = b.Authors.Select(a => new BookAuthorDTO
+                       {
+                           FirstName = a.FirstName,
+                           Id = a.Id,
+                           SecondName = a.SecondName
+                       }).ToList()
+                   }
+                   ).Where(b => b.Id == command.id).Single();
+                _elasticClient.IndexDocument<BookDTO>(booktoindex);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Model;
+using Model.DTO;
 using Nest;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace CQRS
             if(book !=null)
                 db.Books.Remove(book);
             db.SaveChanges();
+            _elasticClient.Delete<BookDTO>(command.id);
         }
     }
 }

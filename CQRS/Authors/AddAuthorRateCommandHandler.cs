@@ -1,4 +1,6 @@
-﻿using Model;
+﻿using Microsoft.EntityFrameworkCore;
+using Model;
+using Model.DTO;
 using Nest;
 using System;
 using System.Collections.Generic;
@@ -31,8 +33,23 @@ namespace CQRS.Authors
                 Date = DateTime.Now,
                 Value = (short)command.rate
             });
-
             db.SaveChanges();
+            var authortoindex= db.Authors.Include(a => a.Rates)
+            .Include(a => a.Books)
+            .ToList().Select(a => new AuthorDTO
+            {
+                Id = a.Id,
+                FirstName = a.FirstName,
+                SecondName = a.SecondName,
+                AvarageRate = (a.Rates.Count() > 0 ? a.Rates.Average(r => r.Value) : 0),
+                RatesCount = (a.Rates.Count() > 0 ? a.Rates.Count() : 0),
+                Books = a.Books.Select(b => new SlimBookDTO
+                {
+                    Title = b.Title,
+                    Id = b.Id,
+                }).ToList()
+            }).Where(b=>b.Id==command.id).Single();
+            _elasticClient.IndexDocument<AuthorDTO>(authortoindex);
         }
     }
 }
