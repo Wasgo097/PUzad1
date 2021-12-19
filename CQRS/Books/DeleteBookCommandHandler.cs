@@ -1,4 +1,5 @@
 ﻿using Model;
+using Nest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,11 @@ namespace CQRS
     public class DeleteBookCommandHandler : ICommandHandler<DeleteBookCommand>
     {
         private readonly Database db;
-        public DeleteBookCommandHandler(Database db)
+        private readonly IElasticClient _elasticClient;
+        public DeleteBookCommandHandler(Database db, IElasticClient client)
         {
             this.db = db;
+            _elasticClient = client;
         }
 
         public void Handle(DeleteBookCommand command)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Model;
+using Nest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,12 @@ namespace CQRS.Authors
     public class DeleteAuthorCommandHandler:ICommandHandler<DeleteAuthorCommand>
     {
         private readonly Database db;
+        private readonly IElasticClient _elasticClient;
 
-        public DeleteAuthorCommandHandler(Database db)
+        public DeleteAuthorCommandHandler(Database db, IElasticClient client)
         {
             this.db = db;
+            _elasticClient = client;
         }
 
         public void Handle(DeleteAuthorCommand command)

@@ -1,4 +1,5 @@
 ﻿using Model;
+using Nest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,12 @@ namespace CQRS.Authors
     public class AddAuthorCommandHandler: ICommandHandler<AddAuthorCommand>
     {
         private Database db { get; }
+        private readonly IElasticClient _elasticClient;
 
-        public AddAuthorCommandHandler(Database db)
+        public AddAuthorCommandHandler(Database db, IElasticClient client)
         {
             this.db = db;
+            _elasticClient = client;
         }
 
         public void Handle(AddAuthorCommand command)

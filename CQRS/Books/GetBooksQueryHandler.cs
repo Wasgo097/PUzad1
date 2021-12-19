@@ -6,15 +6,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Nest;
 
 namespace CQRS
 {
     public class GetBooksQueryHandler : IQueryHandler<GetBooksQuery, List<BookDTO>>
     {
         private readonly Database db;
-        public GetBooksQueryHandler(Database db)
+        private readonly IElasticClient _elasticClient;
+        public GetBooksQueryHandler(Database db, IElasticClient client)
         {
             this.db = db;
+            _elasticClient = client;
         }
         public List<BookDTO> Handle(GetBooksQuery query)
         {

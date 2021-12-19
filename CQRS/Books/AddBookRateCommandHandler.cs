@@ -1,4 +1,5 @@
 ﻿using Model;
+using Nest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,12 @@ namespace CQRS.Books
     public class AddBookRateCommandHandler : ICommandHandler<AddBookRateCommand>
     {
         private Database db { get; }
+        private readonly IElasticClient _elasticClient;
 
-        public AddBookRateCommandHandler(Database db)
+        public AddBookRateCommandHandler(Database db, IElasticClient client)
         {
             this.db = db;
+            _elasticClient = client;
         }
         public void Handle(AddBookRateCommand command)
         {

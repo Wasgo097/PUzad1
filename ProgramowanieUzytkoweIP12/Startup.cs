@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Model;
 using Model.DTO;
+using Nest;
 using RepositoryPattern;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,9 @@ namespace ProgramowanieUzytkoweIP12
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<Database>();
+            services.AddScoped<IElasticClient>(x =>
+                new ElasticClient(new ElasticConnection(new Uri("http://localhost:9200")))
+            );
 
             services.AddScoped<LibraryRepository>();
 
