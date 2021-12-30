@@ -43,9 +43,9 @@ namespace ProgramowanieUzytkoweIP12.Controllers
            // return x;
         }
         [HttpGet("/cqrsbook")]
-        public List<BookDTO> GetBook([FromQuery] GetBookQuery query)
+        public BookDTO GetBook([FromQuery] GetBookQuery query)
         {
-            return querybus.Handle<GetBookQuery, List<BookDTO>>(query);
+            return querybus.Handle<GetBookQuery, BookDTO>(query);
         }
         [HttpPost("/cqrsaddbook")]
         public void PostBook([FromBody] AddBookCommand command)
