@@ -53,7 +53,7 @@ namespace CQRS.Books
                        }).ToList()
                    }
                    ).Where(b => b.Id == command.id).Single();
-                _elasticClient.IndexDocument<BookDTO>(booktoindex);
+                _elasticClient.Update<BookDTO>(command.id, s => s.Index("books_index").Doc(booktoindex));
             }
         }
     }

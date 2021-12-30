@@ -50,6 +50,7 @@ namespace CQRS.Authors
                 }).ToList()
             }).Where(b=>b.Id==command.id).Single();
             _elasticClient.IndexDocument<AuthorDTO>(authortoindex);
+            _elasticClient.Update<AuthorDTO>(command.id, s => s.Index("authors_index").Doc(authortoindex));
         }
     }
 }

@@ -22,8 +22,7 @@ namespace CQRS
         public void Handle(DeleteBookCommand command)
         {
             Book book = db.Books.Find(command.id);
-            if(book !=null)
-                db.Books.Remove(book);
+            db.Books.Remove(book);
             db.SaveChanges();
             _elasticClient.Delete<BookDTO>(command.id);
         }
