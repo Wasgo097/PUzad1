@@ -21,29 +21,8 @@ namespace CQRS
         }
         public List<BookDTO> Handle(GetBooksQuery query)
         {
-            //usunac query
-            var x=_elasticClient.Search<BookDTO>(x => x.Size(query.Count).Skip(query.Count * query.Page).Query(q => q.MatchAll())).Documents.ToList();
+            var x=_elasticClient.Search<BookDTO>(x => x.Size(query.Count).Skip(query.Count * query.Page)).Documents.ToList();
             return x;
-            //return db.Books.
-            //    Include(b => b.Rates).
-            //    Include(b => b.Authors).
-            //    Skip(query.Count * query.Page).
-            //    Take(query.Count).
-            //    ToList().Select
-            //    (b => new BookDTO
-            //    {
-            //        Id = b.Id,
-            //        ReleaseDate = b.ReleaseDate,
-            //        AvarageRate = b.Rates.Count > 0 ? b.Rates.Average(r => r.Value) : 0,
-            //        RatesCount = b.Rates.Count(),
-            //        Title = b.Title,
-            //        Authors = b.Authors.Select(a => new BookAuthorDTO
-            //        {
-            //            FirstName = a.FirstName,
-            //            Id = a.Id,
-            //            SecondName = a.SecondName
-            //        }).ToList()
-            //    }).ToList();
         }
     }
 }

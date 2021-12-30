@@ -22,7 +22,8 @@ namespace CQRS.Authors
         }
         public List<AuthorDTO> Handle(GetAuthorsQuery query)
         {
-            return _elasticClient.Search<AuthorDTO>(x => x.Size(query.Count).Skip(query.Count * query.Page).Query(q => q.MatchAll())).Documents.ToList();
+            var x= _elasticClient.Search<AuthorDTO>(x => x.Size(query.Count).Skip(query.Count * query.Page)).Documents.ToList();
+            return x;
             //return db.Authors.Include(a => a.Rates)
             //.Include(a => a.Books)
             //.Skip(query.Page * query.Count)

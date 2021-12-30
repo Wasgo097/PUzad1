@@ -21,7 +21,8 @@ namespace CQRS
         }
         public BookDTO Handle(GetBookQuery query)
         {
-            return _elasticClient.Get<BookDTO>(query.id).Source;
+            var x = _elasticClient.Get<BookDTO>(query.id).Source;
+            return x;
             //return db.Books.
             //       Include(b => b.Rates).
             //       Include(b => b.Authors).
