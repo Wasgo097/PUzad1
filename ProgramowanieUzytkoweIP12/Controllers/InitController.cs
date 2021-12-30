@@ -44,34 +44,39 @@ namespace ProgramowanieUzytkoweIP12.Controllers
             var surnameslist = surnames.Split(',');
             var books = "Władca pierścieni,Buszujący w zbożu,Harry Potta,Duma i uprzedzenie,Paragraf 22,Wielki Gatsby,Alicja w Krainie Czarów,Kubuś Puchatek,Anna Karenina,Sto lat samotności";
             var bookslist = books.Split(',');
-            List<AuthorDTO> authorsdto = new List<AuthorDTO>();
-            List<BookDTO> booksdto = new List<BookDTO>();
+            List<Author> authorscollection = new List<Author>();
+            List<Book> bookscollection = new List<Book>();
             for(int i = 0; i < 5; i++)
             {
-                var author = new AuthorDTO { FirstName = femalenameslist[i], SecondName = surnameslist[i] };
-                authorsdto.Add(author);
-                db.Authors.Add(new Author { FirstName = author.FirstName, SecondName = author.SecondName });
+                var authordto = new AuthorDTO { FirstName = femalenameslist[i], SecondName = surnameslist[i] };
+                var author = new Author { FirstName = authordto.FirstName, SecondName = authordto.SecondName ,CV="CV"+i.ToString()};
+                db.Authors.Add(author);
+                authorscollection.Add(author);
             }
             for(int i = 0; i < 5; i++)
             {
-                var author = new AuthorDTO { FirstName = malenameslist[i], SecondName = surnameslist[i] };
-                authorsdto.Add(author);
-                db.Authors.Add(new Author { FirstName = author.FirstName, SecondName = author.SecondName });
+                var authordto = new AuthorDTO { FirstName = malenameslist[i], SecondName = surnameslist[i] };
+                var author = new Author { FirstName = authordto.FirstName, SecondName = authordto.SecondName, CV = "CV2" + i.ToString() };
+                db.Authors.Add(author);
+                authorscollection.Add(author);
             }
             for(int i = 0; i < 10; i++)
             {
-                var book = new BookDTO { Title = bookslist[i], ReleaseDate = DateTime.Now };
-                booksdto.Add(book);
-                db.Books.Add(new Book { Title=book.Title,ReleaseDate=book.ReleaseDate });
+                var bookdto = new BookDTO { Title = bookslist[i], ReleaseDate = DateTime.Now };
+                var book = new Book { Title = bookdto.Title, ReleaseDate = bookdto.ReleaseDate,Description="Desc"+i.ToString() };
+                db.Books.Add(book);
+                bookscollection.Add(book);
             }
             db.SaveChanges();
-            foreach(var author in authorsdto)
+            foreach(var author in authorscollection)
             {
-                _elasticClient.IndexDocument<AuthorDTO>(author);
+                var authordto = new AuthorDTO { Id = author.Id, FirstName = author.FirstName, SecondName = author.SecondName,CV=author.CV};
+                _elasticClient.IndexDocument<AuthorDTO>(authordto);
             }
-            foreach(var book in booksdto)
+            foreach(var book in bookscollection)
             {
-                _elasticClient.IndexDocument<BookDTO>(book);
+                var bookdto = new BookDTO {Id=book.Id,Title=book.Title,ReleaseDate=book.ReleaseDate,Description=book.Description };
+                _elasticClient.IndexDocument<BookDTO>(bookdto);
             }
             return true;
         }

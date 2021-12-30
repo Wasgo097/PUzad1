@@ -21,7 +21,9 @@ namespace CQRS
         }
         public List<BookDTO> Handle(GetBooksQuery query)
         {
-            return _elasticClient.Search<BookDTO>(x => x.Size(query.Count).Skip(query.Count * query.Page).Query(q => q.MatchAll())).Documents.ToList();
+            //usunac query
+            var x=_elasticClient.Search<BookDTO>(x => x.Size(query.Count).Skip(query.Count * query.Page).Query(q => q.MatchAll())).Documents.ToList();
+            return x;
             //return db.Books.
             //    Include(b => b.Rates).
             //    Include(b => b.Authors).
