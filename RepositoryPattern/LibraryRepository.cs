@@ -90,6 +90,7 @@ namespace RepositoryPattern
             if (book != null)
             {
                 db.Books.Remove(book);
+                db.SaveChanges();
                 return true;
             }
             else

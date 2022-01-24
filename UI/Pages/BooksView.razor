@@ -1,0 +1,66 @@
+﻿@page "/books"
+@using RepositoryPattern
+@using Model.DTO
+@inject LibraryRepository library
+@if (books == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>ReleaseDate</th>
+                <th>AvarageRate</th>
+                <th>RateCount</th>
+                <th>Authors</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in books)
+            {
+            <tr>
+                <td>@book.Title</td>
+                <td>@book.ReleaseDate.ToString()</td>
+                <td>@book.AvarageRate</td>
+                <td>@book.RatesCount</td>
+                <td> @GetAuthors(book);</td>
+                <td>
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        int x = i;
+                        <button @onclick="() => OnBookRates(book,x)"><span class="oi oi-star"></span></button>
+                    }
+                </td>
+                <td>
+                    <button @onclick="()=>OnBookDelete(book)"><span class="oi oi-trash"></span></button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    private BookDTO[] books;
+    protected override void OnInitialized()
+    {
+        books = library.GetBooks(new PaginationDTO(0, 100)).ToArray();
+    }
+    string GetAuthors(BookDTO obj)
+    {
+        var list = obj.Authors.Select(x => x.FirstName + " " + x.SecondName);
+        return string.Join(", ", list);
+    }
+    protected void OnBookRates(BookDTO obj, int rate)
+    {
+        Console.WriteLine(obj.Title + " " + obj.ReleaseDate + " oceniona na " + rate);
+        library.AddRateToBook(rate, obj.Id);
+    }
+    protected void OnBookDelete(BookDTO obj)
+    {
+        Console.WriteLine(obj.Title + " " + obj.ReleaseDate + " usunieta");
+        library.DeleteBook(obj.Id);
+    }
+}
