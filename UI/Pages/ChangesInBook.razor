@@ -1,5 +1,39 @@
-﻿<h3>ChangesInBook</h3>
+﻿@page "/bookchanges"
+@using RepositoryPattern
+@using Model.DTO
+@inject LibraryRepository library
+<h3>ChangesInBook</h3>
+@*<EditForm Model="model" OnValidSubmit="OnSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
+    <label>Nazwa:</label>
+    <InputText @bind-Value="model.Title" />
+
+    <label>Data wydania:</label>
+    <InputDate @bind-Value="model.ReleaseDate" />
+
+    <label>Opis:</label>
+    <InputNumber @bind-Value="model.Description" />
+
+    <button>Zapisz</button>
+</EditForm>
 @code {
-
-}
+    BookDTO model = new BookDTO();
+    [Parameter]
+    public BookDTO originalModel { get; set; }
+    protected override void OnInitialized()
+    {
+        if (originalModel != null)
+        {
+            model = originalModel;
+        }
+    }
+    void OnSubmit()
+    {
+        if(originalModel==null)
+            Console.WriteLine("edytowano");
+        else
+            Console.WriteLine("dodano");
+    }
+}*@

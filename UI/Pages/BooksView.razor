@@ -2,9 +2,19 @@
 @using RepositoryPattern
 @using Model.DTO
 @inject LibraryRepository library
-@if (books == null)
+<button @onclick="()=>SwitchTab()">
+    @if (edit)
+    {
+        <span>Podgląd</span>
+    }
+    else
+    {
+        <span>Dodawanie</span>
+    }
+</button>
+@if (edit)
 {
-    <p><em>Loading...</em></p>
+    <p>czesc</p>
 }
 else
 {
@@ -21,28 +31,32 @@ else
         <tbody>
             @foreach (var book in books)
             {
-            <tr>
-                <td>@book.Title</td>
-                <td>@book.ReleaseDate.ToString()</td>
-                <td>@book.AvarageRate</td>
-                <td>@book.RatesCount</td>
-                <td> @GetAuthors(book);</td>
-                <td>
-                    @for (int i = 1; i <= 5; i++)
-                    {
-                        int x = i;
-                        <button @onclick="() => OnBookRates(book,x)"><span class="oi oi-star"></span></button>
-                    }
-                </td>
-                <td>
-                    <button @onclick="()=>OnBookDelete(book)"><span class="oi oi-trash"></span></button>
-                </td>
-            </tr>
+                <tr>
+                    <td>@book.Title</td>
+                    <td>@book.ReleaseDate.ToString()</td>
+                    <td>@book.AvarageRate</td>
+                    <td>@book.RatesCount</td>
+                    <td> @GetAuthors(book);</td>
+                    <td>
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            int x = i;
+                            <button @onclick="() => OnBookRates(book,x)"><span class="oi oi-star"></span></button>
+                        }
+                    </td>
+                    <td>
+                        <button @onclick="()=>OnBookDelete(book)"><span class="oi oi-trash"></span></button>
+                    </td>
+                    <td>
+                        <button @onclick="()=>OnEdit(book)">Edycja</button>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
 }
 @code {
+    bool edit = false;
     private BookDTO[] books;
     protected override void OnInitialized()
     {
@@ -62,5 +76,13 @@ else
     {
         Console.WriteLine(obj.Title + " " + obj.ReleaseDate + " usunieta");
         library.DeleteBook(obj.Id);
+    }
+    protected void OnEdit(BookDTO obj)
+    {
+        Console.WriteLine(obj.Title + " " + obj.ReleaseDate + " edycja");
+    }
+    void SwitchTab()
+    {
+        edit = !edit;
     }
 }
