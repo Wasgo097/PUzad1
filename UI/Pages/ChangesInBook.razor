@@ -3,19 +3,21 @@
 @using Model.DTO
 @inject LibraryRepository library
 <h3>ChangesInBook</h3>
-@*<EditForm Model="model" OnValidSubmit="OnSubmit">
+<EditForm Model="model" OnValidSubmit="OnSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
-    <label>Nazwa:</label>
-    <InputText @bind-Value="model.Title" />
-
-    <label>Data wydania:</label>
-    <InputDate @bind-Value="model.ReleaseDate" />
-
-    <label>Opis:</label>
-    <InputNumber @bind-Value="model.Description" />
-
+    <div>
+        <label>Nazwa:</label>
+        <InputText @bind-Value="model.Title" />
+    </div>
+    <div>
+        <label>Data wydania:</label>
+        <InputDate @bind-Value="model.ReleaseDate" />
+    </div>
+    <div>
+        <label>Opis:</label>
+        <InputText @bind-Value="model.Description" />
+    </div>
     <button>Zapisz</button>
 </EditForm>
 @code {
@@ -31,9 +33,9 @@
     }
     void OnSubmit()
     {
-        if(originalModel==null)
+        if (originalModel == null)
             Console.WriteLine("edytowano");
         else
             Console.WriteLine("dodano");
     }
-}*@
+}

@@ -14,7 +14,7 @@
 </button>
 @if (edit)
 {
-    <p>czesc</p>
+    <ChangesInBook originalModel="selectedobj"/>
 }
 else
 {
@@ -58,6 +58,7 @@ else
 @code {
     bool edit = false;
     private BookDTO[] books;
+    BookDTO selectedobj = null;
     protected override void OnInitialized()
     {
         books = library.GetBooks(new PaginationDTO(0, 100)).ToArray();
@@ -71,18 +72,23 @@ else
     {
         Console.WriteLine(obj.Title + " " + obj.ReleaseDate + " oceniona na " + rate);
         library.AddRateToBook(rate, obj.Id);
+        selectedobj = null;
     }
     protected void OnBookDelete(BookDTO obj)
     {
         Console.WriteLine(obj.Title + " " + obj.ReleaseDate + " usunieta");
         library.DeleteBook(obj.Id);
+        selectedobj = null;
     }
     protected void OnEdit(BookDTO obj)
     {
         Console.WriteLine(obj.Title + " " + obj.ReleaseDate + " edycja");
+        selectedobj = obj;
     }
     void SwitchTab()
     {
         edit = !edit;
+        if(edit==false)
+            selectedobj = null;
     }
 }
