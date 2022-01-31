@@ -2,9 +2,19 @@
 @using RepositoryPattern
 @using Model.DTO
 @inject LibraryRepository library
-@if (authors == null)
+<button @onclick="()=>SwitchTab()">
+    @if (edit)
+    {
+        <span>Podgląd</span>
+    }
+    else
+    {
+        <span>Dodawanie</span>
+    }
+</button>
+@if (edit)
 {
-    <p><em>Loading...</em></p>
+    <ChangesInAuthor originalModel="selectedobj" />
 }
 else
 {
@@ -15,35 +25,42 @@ else
                 <th>SecondName</th>
                 <th>AvarageRate</th>
                 <th>RateCount</th>
+                <th>CV</th>
                 <th>Books</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var author in authors)
             {
-            <tr @onclick="()=> OnRowClicked(author)">
-                <td>@author.FirstName</td>
-                <td>@author.SecondName</td>
-                <td>@author.AvarageRate</td>
-                <td>@author.RatesCount</td>
-                <td>@GetBooks(author)</td>
-                <td>
-                    @for (int i = 1; i <= 5; i++)
-                    {
-                        int x = i;
-                        <button @onclick="() => OnAuthorRates(author,x)"><span class="oi oi-star"></span></button>
-                    }
-                </td>
-                <td>
-                    <button @onclick="()=>OnAuthorDelete(author)"><span class="oi oi-trash"></span></button>
-                </td>
-            </tr>
+                <tr>
+                    <td>@author.FirstName</td>
+                    <td>@author.SecondName</td>
+                    <td>@author.AvarageRate</td>
+                    <td>@author.RatesCount</td>
+                    <td>@author.CV</td>
+                    <td>@GetBooks(author)</td>
+                    <td>
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            int x = i;
+                            <button @onclick="() => OnAuthorRates(author,x)"><span class="oi oi-star"></span></button>
+                        }
+                    </td>
+                    <td>
+                        <button @onclick="()=>OnAuthorDelete(author)"><span class="oi oi-trash"></span></button>
+                    </td>
+                    <td>
+                        <button @onclick="()=>OnEdit(author)">Edycja</button>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
 }
 @code {
+    bool edit = false;
     private AuthorDTO[] authors;
+    AuthorDTO selectedobj = null;
     protected override void OnInitialized()
     {
         authors = library.GetAuthors(new PaginationDTO(0, 100)).ToArray();
@@ -58,7 +75,7 @@ else
         if (obj.Books.Count > 3)
         {
             var list = obj.Books.Select(x => x.Title).Take(3);
-            return string.Join(", ", list)+ "... +"+Convert.ToString(obj.Books.Count-3);
+            return string.Join(", ", list) + "... +" + Convert.ToString(obj.Books.Count - 3);
         }
         else
         {
@@ -74,5 +91,16 @@ else
     protected void OnRowClicked(AuthorDTO obj)
     {
         Console.WriteLine(obj.FirstName + " " + obj.SecondName + " zaznaczono");
+    }
+    protected void OnEdit(AuthorDTO obj)
+    {
+        Console.WriteLine(obj.FirstName + " " + obj.SecondName + " edycja");
+        selectedobj = obj;
+        edit = !edit;
+    }
+    void SwitchTab()
+    {
+        edit = !edit;
+        selectedobj = null;
     }
 }

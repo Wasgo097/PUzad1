@@ -2,8 +2,23 @@
 @using RepositoryPattern
 @using Model.DTO
 @inject LibraryRepository library
-<h3>ChangesInAuthor</h3>
-
+<EditForm Model="model" OnValidSubmit="OnSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div>
+        <label>Nazwa:</label>
+        <InputText @bind-Value="model.FirstName" />
+    </div>
+    <div>
+        <label>Data wydania:</label>
+        <InputDate @bind-Value="model.SecondName" />
+    </div>
+    <div>
+        <label>Opis:</label>
+        <InputText @bind-Value="model.CV" />
+    </div>
+    <button>Zapisz</button>
+</EditForm>
 @code {
     AuthorDTO model = new AuthorDTO();
     [Parameter]
