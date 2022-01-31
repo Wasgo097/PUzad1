@@ -84,11 +84,11 @@ else
     {
         Console.WriteLine(obj.Title + " " + obj.ReleaseDate + " edycja");
         selectedobj = obj;
+        edit = !edit;
     }
     void SwitchTab()
     {
         edit = !edit;
-        if(edit==false)
-            selectedobj = null;
+        selectedobj = null;
     }
 }

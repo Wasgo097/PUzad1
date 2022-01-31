@@ -46,7 +46,7 @@ namespace RepositoryPattern
                 {
                     Id = b.Id,
                     ReleaseDate = b.ReleaseDate,
-                    AvarageRate = b.Rates.Count>0? b.Rates.Average(r => r.Value):0,
+                    AvarageRate = b.Rates.Count > 0 ? b.Rates.Average(r => r.Value) : 0,
                     RatesCount = b.Rates.Count(),
                     Title = b.Title,
                     Authors = b.Authors.Select(a => new BookAuthorDTO
@@ -68,21 +68,6 @@ namespace RepositoryPattern
             newbook.Authors = db.Authors.Where(a => bookdto.AuthorsIds.Contains(a.Id)).ToList();
             db.Books.Add(newbook);
             db.SaveChanges();
-            //return new BookDTO
-            //{
-            //    Id = newbook.Id,
-            //    Authors = newbook.Authors.Select(a => new BookAuthorDTO
-            //    {
-            //        Id = a.Id,
-            //        FirstName = a.FirstName,
-            //        SecondName = a.SecondName
-
-            //    }).ToList(),
-            //    AvarageRate = 0,
-            //    RatesCount = 0,
-            //    ReleaseDate = newbook.ReleaseDate,
-            //    Title = newbook.Title
-            //};
         }
         public bool DeleteBook(int index)
         {
@@ -96,7 +81,16 @@ namespace RepositoryPattern
             else
                 return false;
         }
-        public void AddRateToBook(int rate,int bookid)
+        public void EditBook(int id, BookDTO obj)
+        {
+            Book newbook = new Book { Id = id, Title = obj.Title, ReleaseDate = obj.ReleaseDate, Description = obj.Description };
+            var oldbook = db.Books.Where(x => x.Id == obj.Id).Single();
+            newbook.Authors = oldbook.Authors;
+            newbook.Rates = oldbook.Rates;
+            oldbook = newbook;
+            db.SaveChanges();
+        }
+        public void AddRateToBook(int rate, int bookid)
         {
             var book = db.Books.Where(x => x.Id == bookid).Single();
             db.BooksRates.Add(new BookRate
@@ -106,7 +100,7 @@ namespace RepositoryPattern
                 Type = RateType.BookRate,
                 FkBook = book.Id,
                 Book = book
-            }) ;
+            });
             db.SaveChanges();
         }
         public List<AuthorDTO> GetAuthors(PaginationDTO pagination)
@@ -149,10 +143,18 @@ namespace RepositoryPattern
                 }
             }
         }
-        public void AddRateToAuthor(int rate,int authorid)
+        public void EditAuthor(int id, AuthorDTO obj)
+        {
+            Author newauthor = new Author { Id = id, FirstName = obj.FirstName, SecondName = obj.SecondName ,CV=obj.CV};
+            var oldauthor = db.Authors.Where(x => x.Id == id).Single();
+            newauthor.Books = oldauthor.Books;
+            newauthor.Rates = oldauthor.Rates;
+            db.SaveChanges();
+        }
+        public void AddRateToAuthor(int rate, int authorid)
         {
             var author = db.Authors.Where(a => a.Id == authorid).Single();
-            if (author!=null)
+            if (author != null)
             {
                 db.AuthorsRates.Add(new AuthorRate
                 {

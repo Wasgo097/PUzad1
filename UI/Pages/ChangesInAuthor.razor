@@ -1,5 +1,36 @@
-﻿<h3>ChangesInAuthor</h3>
+﻿@page "/authorchanges"
+@using RepositoryPattern
+@using Model.DTO
+@inject LibraryRepository library
+<h3>ChangesInAuthor</h3>
 
 @code {
-
+    AuthorDTO model = new AuthorDTO();
+    [Parameter]
+    public AuthorDTO originalModel { get; set; }
+    protected override void OnInitialized()
+    {
+        if (originalModel != null)
+        {
+            model = originalModel;
+        }
+        else
+        {
+            model.Books = new List<SlimBookDTO>();
+        }
+    }
+    void OnSubmit()
+    {
+        if (originalModel == null)
+        {
+            Console.WriteLine("dodano");
+            AuthorRequestDTO tempauthor = new AuthorRequestDTO {FirstName=model.FirstName,SecondName=model.SecondName,BooksId= model.Books.Select(x=>x.Id).ToList()};
+            library.PostAuthor(tempauthor);
+        }
+        else
+        {
+            Console.WriteLine("edytowano");
+            library.EditAuthor(model.Id, model);
+        }
+    }
 }

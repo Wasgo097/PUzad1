@@ -30,12 +30,24 @@
         {
             model = originalModel;
         }
+        else
+        {
+            model.Authors = new List<BookAuthorDTO>();
+        }
     }
     void OnSubmit()
     {
         if (originalModel == null)
-            Console.WriteLine("edytowano");
-        else
+        {
             Console.WriteLine("dodano");
+            BookRequestDTO tempbook = new BookRequestDTO { Title = model.Title, ReleaseDate = model.ReleaseDate, AuthorsIds = model.Authors.Select(x => x.Id).ToList() };
+            library.PostBook(tempbook);
+
+        }
+        else
+        {
+            Console.WriteLine("edytowano");
+            library.EditBook(model.Id, model);
+        }
     }
 }
