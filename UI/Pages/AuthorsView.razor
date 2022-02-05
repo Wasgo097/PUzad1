@@ -12,9 +12,13 @@
         <span>Dodawanie</span>
     }
 </button>
-@if (edit)
+@if (edit && booksedit == false)
 {
     <ChangesInAuthor originalModel="selectedobj" />
+}
+else if (edit && booksedit == true)
+{
+    <AddBookToAurhor originalModel="selectedobj" />
 }
 else
 {
@@ -52,6 +56,9 @@ else
                     <td>
                         <button @onclick="()=>OnEdit(author)">Edycja</button>
                     </td>
+                    <td>
+                        <button @onclick="()=>OnBooksEdit(author)">+</button>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -59,6 +66,7 @@ else
 }
 @code {
     bool edit = false;
+    bool booksedit = false;
     private AuthorDTO[] authors;
     AuthorDTO selectedobj = null;
     protected override void OnInitialized()
@@ -88,19 +96,23 @@ else
         Console.WriteLine(obj.FirstName + " " + obj.SecondName + " usunieta");
         library.DeleteAuthor(obj.Id);
     }
-    protected void OnRowClicked(AuthorDTO obj)
-    {
-        Console.WriteLine(obj.FirstName + " " + obj.SecondName + " zaznaczono");
-    }
     protected void OnEdit(AuthorDTO obj)
     {
         Console.WriteLine(obj.FirstName + " " + obj.SecondName + " edycja");
         selectedobj = obj;
-        edit = !edit;
+        edit = true;
     }
-    void SwitchTab()
+    protected void OnBooksEdit(AuthorDTO obj)
+    {
+        Console.WriteLine(obj.FirstName + " " + obj.SecondName + " edycja");
+        selectedobj = obj;
+        edit = true;
+        booksedit = true;
+    }
+    protected void SwitchTab()
     {
         edit = !edit;
         selectedobj = null;
+        booksedit = false;
     }
 }

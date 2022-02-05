@@ -12,9 +12,13 @@
         <span>Dodawanie</span>
     }
 </button>
-@if (edit)
+@if (edit && authoredit == false)
 {
-    <ChangesInBook originalModel="selectedobj"/>
+    <ChangesInBook originalModel="selectedobj" />
+}
+else if (edit && authoredit == true)
+{
+    <AddAuthorToBook originalModel="selectedobj" />
 }
 else
 {
@@ -50,6 +54,9 @@ else
                     <td>
                         <button @onclick="()=>OnEdit(book)">Edycja</button>
                     </td>
+                    <td>
+                        <button @onclick="()=>OnAuthorsEdit(book)">+</button>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -57,6 +64,7 @@ else
 }
 @code {
     bool edit = false;
+    bool authoredit = false;
     private BookDTO[] books;
     BookDTO selectedobj = null;
     protected override void OnInitialized()
@@ -86,9 +94,17 @@ else
         selectedobj = obj;
         edit = !edit;
     }
+    protected void OnAuthorsEdit(BookDTO obj)
+    {
+        Console.WriteLine(obj.Title + " " + obj.ReleaseDate + " edycja");
+        selectedobj = obj;
+        edit = true;
+        authoredit = true;
+    }
     void SwitchTab()
     {
         edit = !edit;
         selectedobj = null;
+        authoredit = false;
     }
 }

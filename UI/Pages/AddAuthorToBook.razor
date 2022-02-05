@@ -1,0 +1,31 @@
+﻿@page "/addauthortobook"
+@using Model.DTO
+@using Model;
+@inject Database db
+<EditForm OnValidSubmit="OnSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <label>imie autora</label>
+    <InputText @bind-Value="authorfirstname" />
+    <label>nazwisko autora</label>
+    <InputText @bind-Value="authorsecondname" />
+    <button>Zapisz</button>
+</EditForm>
+@code {
+    [Parameter]
+    public BookDTO originalModel { get; set; }
+    string authorfirstname;
+    string authorsecondname;
+    void OnSubmit()
+    {
+        var author = db.Authors.Single(x => x.FirstName == authorfirstname && x.SecondName == authorsecondname);
+        if (author != null)
+        {
+            var book = db.Books.Single(x => x.Id == originalModel.Id);
+            book.Authors.Add(author);
+            author.Books.Add(book);
+            db.SaveChanges();
+        }
+    }
+}
